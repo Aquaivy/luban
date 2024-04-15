@@ -120,6 +120,7 @@ public class ExcelSchemaLoader : SchemaLoaderBase
                 new() { Name = "alias", Type = "string" },
                 new() { Name = "value", Type = "string" },
                 new() { Name = "comment", Type = "string" },
+                new() { Name = "description", Type = "string" },
                 new() { Name = "tags", Type = "string" },
             }
         })
@@ -191,6 +192,7 @@ public class ExcelSchemaLoader : SchemaLoaderBase
                     Alias = (d.GetField("alias") as DString).Value,
                     Value = (d.GetField("value") as DString).Value,
                     Comment = (d.GetField("comment") as DString).Value,
+                    Description = (d.GetField("description") as DString).Value,
                     Tags = DefUtil.ParseAttrs((d.GetField("tags") as DString).Value),
                 }).ToList(),
             };

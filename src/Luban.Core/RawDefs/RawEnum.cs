@@ -10,6 +10,8 @@ public class EnumItem
 
     public string Comment { get; set; }
 
+    public string Description { get; set; }
+
     public Dictionary<string, string> Tags { get; set; }
 }
 

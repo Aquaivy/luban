@@ -1,4 +1,5 @@
 using System.Xml.Linq;
+using Luban.Datas;
 using Luban.Defs;
 using Luban.RawDefs;
 using Luban.Utils;
@@ -103,6 +104,7 @@ public class XmlSchemaLoader : SchemaLoaderBase
                         Alias = XmlUtil.GetOptionalAttribute(item, "alias"),
                         Value = XmlUtil.GetOptionalAttribute(item, "value"),
                         Comment = XmlUtil.GetOptionalAttribute(item, "comment"),
+                        Description = XmlUtil.GetOptionalAttribute(item, "description"),
                         Tags = DefUtil.ParseAttrs(XmlUtil.GetOptionalAttribute(item, "tags")),
                     });
                     break;

@@ -19,6 +19,8 @@ public class DefEnum : DefTypeBase
 
         public string Comment { get; set; }
 
+        public string Description { get; set; }
+
         public string CommentOrAlias => string.IsNullOrEmpty(Comment) ? Alias : Comment;
 
         public Dictionary<string, string> Tags { get; set; }
@@ -105,6 +107,7 @@ public class DefEnum : DefTypeBase
                 Alias = item.Alias,
                 Value = item.Value,
                 Comment = string.IsNullOrWhiteSpace(item.Comment) ? item.Alias : item.Comment,
+                Description = item.Description,
                 Tags = item.Tags,
             });
         }
