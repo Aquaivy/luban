@@ -29,4 +29,17 @@ using Luban;
         }
     }
 
+    public static partial class Template
+    {
+        {{~for table in __tables ~}}
+        {{~if table.comment != '' ~}}
+
+        /// <summary>
+        /// {{escape_comment table.comment}}
+        /// </summary>
+        {{~end~}}
+        public static {{table.full_name}} {{format_property_name __code_style table.name_without_table}} { get => tables.{{format_property_name __code_style table.name}}; }
+        {{~end~}}
+    }
+
 {{namespace_with_grace_end __namespace}}

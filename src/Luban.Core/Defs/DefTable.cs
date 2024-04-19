@@ -15,6 +15,7 @@ public class DefTable : DefTypeBase
     public DefTable(RawTable b)
     {
         Name = b.Name;
+        NameWithoutTable = b.Name.Replace("Table", "");
         Namespace = b.Namespace;
         Index = b.Index;
         ValueType = b.ValueType;
@@ -28,6 +29,7 @@ public class DefTable : DefTypeBase
     }
 
     public string Index { get; private set; }
+    public string NameWithoutTable { get; private set; }
 
     public string ValueType { get; }
 
