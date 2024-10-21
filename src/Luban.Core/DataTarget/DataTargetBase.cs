@@ -1,11 +1,25 @@
+using Luban.CodeTarget;
 using Luban.Defs;
+using Luban.Utils;
 using System.Reflection;
+using System.Text;
 
 namespace Luban.DataTarget;
 
 public abstract class DataTargetBase : IDataTarget
 {
     public const string FamilyPrefix = "tableExporter";
+
+    public string Name => GetType().GetCustomAttribute<DataTargetAttribute>().Name;
+
+    public virtual Encoding FileEncoding
+    {
+        get
+        {
+            string encoding = EnvManager.Current.GetOptionOrDefault(Name, BuiltinOptionNames.FileEncoding, true, "");
+            return string.IsNullOrEmpty(encoding) ? Encoding.UTF8 : System.Text.Encoding.GetEncoding(encoding);
+        }
+    }
 
     public virtual AggregationType AggregationType => AggregationType.Table;
 
@@ -47,4 +61,20 @@ public abstract class DataTargetBase : IDataTarget
         throw new NotSupportedException();
     }
 
+    private static string GetLineEnding()
+    {
+        string endings = EnvManager.Current.GetOptionOrDefault("data", BuiltinOptionNames.LineEnding, true, "").ToLowerInvariant();
+        return StringUtil.GetLineEnding(endings);
+    }
+
+    protected OutputFile CreateOutputFile(string path, string content)
+    {
+        string finalContent = content.ReplaceLineEndings(GetLineEnding());
+        return new OutputFile() { File = path, Content = finalContent, Encoding = FileEncoding };
+    }
+
+    protected OutputFile CreateOutputFile(string path, byte[] content)
+    {
+        return new OutputFile() { File = path, Content = content, Encoding = FileEncoding };
+    }
 }

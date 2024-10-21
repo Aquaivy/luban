@@ -67,10 +67,6 @@ public class LuaDataTarget : DataTargetBase
         {
             ExportTableList(table, records, ss);
         }
-        return new OutputFile()
-        {
-            File = $"{table.OutputDataFile}.{OutputFileExt}",
-            Content = ss.ToString(),
-        };
+        return CreateOutputFile($"{table.OutputDataFile}.{OutputFileExt}", ss.ToString());
     }
 }

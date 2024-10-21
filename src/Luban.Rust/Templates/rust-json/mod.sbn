@@ -19,7 +19,7 @@ bitflags::bitflags!{
     {{~if item.comment_or_alias != '' ~}}
         ///{{item.comment_or_alias | html.escape}}
     {{~end~}}
-        const {{item.name}} = {{item.value}};
+        const {{item.name}} = {{item.int_value}};
         {{~end~}}
     }
 }
@@ -104,7 +104,7 @@ impl<'a> GetBase<'a, &'a dyn {{base_trait_name bean}}> for AbstractBase {
         }
         {{~end~}}
 
-        Err(LubanError::Polymorphic(format!("Invalid type for Shape")))
+        Err(LubanError::Polymorphic(format!("Invalid type for {{bean.name}}")))
     }
 }
 {{~else~}}
