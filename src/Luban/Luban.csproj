@@ -33,8 +33,14 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackAsTool>True</PackAsTool>
         <FileVersion>$(AssemblyVersion)</FileVersion>
-        <Version>3.9.0</Version>
+        <Version>3.11.0</Version>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="Plugin\**" />
+      <EmbeddedResource Remove="Plugin\**" />
+      <None Remove="Plugin\**" />
+    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="CommandLineParser" Version="2.9.1" />
@@ -49,10 +55,6 @@
       <ProjectReference Include="..\Luban.DataValidator.Builtin\Luban.DataValidator.Builtin.csproj" />
       <ProjectReference Include="..\Luban.L10N\Luban.L10N.csproj" />
       <ProjectReference Include="..\Luban.Schema.Builtin\Luban.Schema.Builtin.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Plugin\" />
     </ItemGroup>
 
     <ItemGroup>
