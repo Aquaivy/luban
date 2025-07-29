@@ -1,34 +1,51 @@
+using Cysharp.Threading.Tasks;
 using Luban;
 
 {{namespace_with_grace_begin __namespace}}
-public partial class {{__name}}
-{
-    {{~for table in __tables ~}}
-{{~if table.comment != '' ~}}
-    /// <summary>
-    /// {{escape_comment table.comment}}
-    /// </summary>
-{{~end~}}
-    public {{table.full_name}} {{format_property_name __code_style table.name}} {get; }
+    public partial class {{__name}}
+    {
+        {{~for table in __tables ~}}
+    {{~if table.comment != '' ~}}
+
+        /// <summary>
+        /// {{escape_comment table.comment}}
+        /// </summary>
     {{~end~}}
-
-    public {{__name}}(System.Func<string, ByteBuf> loader)
-    {
-        {{~for table in __tables ~}}
-        {{format_property_name __code_style table.name}} = new {{table.full_name}}(loader("{{table.output_data_file}}"));
+        public {{table.full_name}} {{format_property_name __code_style table.name}} { get; private set;}
         {{~end~}}
-        ResolveRef();
-    }
-    
-    private void ResolveRef()
-    {
-        {{~for table in __tables ~}}
-        {{format_property_name __code_style table.name}}.ResolveRef(this);
-        {{~end~}}
-    }
-}
 
-    public static partial class Template
+        public {{__name}}()
+        {
+
+        }
+
+        // 同步加载方案
+        public void Initialize(System.Func<string, ByteBuf> loader)
+        {
+            {{~for table in __tables ~}}
+            {{format_property_name __code_style table.name}} = new {{table.full_name}}(loader("{{table.output_data_file}}"));
+            {{~end~}}
+            ResolveRef();
+        }
+
+        // 异步加载方案
+        public async UniTask Initialize(System.Func<string, UniTask<ByteBuf>> loader)
+        {
+            {{~for table in __tables ~}}
+            {{format_property_name __code_style table.name}} = new {{table.full_name}}(await loader("{{table.output_data_file}}"));
+            {{~end~}}
+            ResolveRef();
+        }
+
+        private void ResolveRef()
+        {
+            {{~for table in __tables ~}}
+            {{format_property_name __code_style table.name}}.ResolveRef(this);
+            {{~end~}}
+        }
+    }
+
+    public static partial class ConfigManager
     {
         {{~for table in __tables ~}}
         {{~if table.comment != '' ~}}
